@@ -21,27 +21,27 @@ namespace ToyRobotPuzzle.Common.Business.Utilities
                 List<string> stringRow = new List<string>();
                 for (int i = 0; i <= tableWidth; i++)
                 {
-                    stringRow.Add(" ");
+                    stringRow.Add("+");
                 }
                 for (int i = 0; i <= tableHeight; i++)
                 {
                     stringRows.Add(new List<string>(stringRow));
                 }
 
-                string robotIcon = "o";
+                string robotIcon = "●";
                 switch (facingDirection)
                 {
                     case FacingDirection.NORTH:
-                        robotIcon = "^";
+                        robotIcon = "▲";
                         break;
                     case FacingDirection.SOUTH:
-                        robotIcon = "v";
+                        robotIcon = "▼";
                         break;
                     case FacingDirection.WEST:
-                        robotIcon = "<";
+                        robotIcon = "◄";
                         break;
                     case FacingDirection.EAST:
-                        robotIcon = ">";
+                        robotIcon = "►";
                         break;
                 }
 
@@ -55,7 +55,7 @@ namespace ToyRobotPuzzle.Common.Business.Utilities
                     Console.WriteLine(" ");
                     foreach (List<string> row in stringRows)
                     {
-                        Console.WriteLine($"|{string.Join(" ", row)}|");
+                        Console.WriteLine($"{string.Join(" ", row)}");
                     }
                     Console.WriteLine(" ");
                 }

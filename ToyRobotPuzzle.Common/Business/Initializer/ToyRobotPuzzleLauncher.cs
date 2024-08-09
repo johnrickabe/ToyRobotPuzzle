@@ -8,7 +8,7 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
     public class ToyRobotPuzzleLauncher
     {
         private readonly string SUCCESS_MESSAGE = "Success!";
-        private readonly string FAILURE_MESSAGE = "Failed! (Robot might fall of the edge)";
+        private readonly string FAILURE_MESSAGE = "Failed! (Robot might fall off the edge)";
         private readonly string ROBOT_NEED_PLACEMENT_MESSAGE = "Robot should be placed first!";
 
         private TableTop TableTop { get; set; }
@@ -44,6 +44,8 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
                 {
                     Console.WriteLine($"Error: Invalid command: '{readLine}'");
                 }
+
+                Visualizer.Visualize(this);
             }
         }
 
@@ -164,6 +166,8 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
         public FacingDirection? RobotFacingDirection => this.Robot.FacingDirection;
         public int? RobotPositionX => this.Robot.PositionX;
         public int? RobotPositionY => this.Robot.PositionY;
+        public int TableWidth => this.TableTop.Width;
+        public int TableHeight => this.TableTop.Height;
 
     }
 }

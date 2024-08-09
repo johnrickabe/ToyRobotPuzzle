@@ -44,12 +44,12 @@ namespace ToyRobotPuzzle.Common.Models.Entities
         /// <summary>Returns true if the method succeeded. Otherwise, false.</summary> ///
         public bool Place(int x, int y)
         {
-            if (!IsPlaced)
+            if (IsPlaced)
             {
-                return false;
+                return Place(x, y, _facingDirection);
             }
 
-            return Place(x, y, _facingDirection);
+            return false;
         }
 
         /// <summary>Returns true if the method succeeded. Otherwise, false.</summary> ///
@@ -71,57 +71,49 @@ namespace ToyRobotPuzzle.Common.Models.Entities
         /// <summary>Returns true if the method succeeded. Otherwise, false.</summary> ///
         public bool MoveForward(int units = 1)
         {
-            if (!IsPlaced)
+            if (IsPlaced)
             {
-                return false;
+                switch (_facingDirection)
+                {
+                    case Direction.NORTH:
+                        return MoveY(units);
+                    case Direction.EAST:
+                        return MoveX(units);
+                    case Direction.SOUTH:
+                        return MoveY(-units);
+                    case Direction.WEST:
+                        return MoveX(-units);
+                }
             }
-
-            switch (_facingDirection)
-            {
-                case Direction.NORTH:
-                    return MoveY(units);
-                case Direction.EAST:
-                    return MoveX(units);
-                case Direction.SOUTH:
-                    return MoveY(-units);
-                case Direction.WEST:
-                    return MoveX(-units);
-            }
-
             return false;
         }
 
         /// <summary>Returns true if the method succeeded. Otherwise, false.</summary> ///
         public bool MoveX(int units)
         {
-            if (!IsPlaced)
+            if (IsPlaced)
             {
-                return false;
+                int targetX = _positionX + units;
+                if (targetX <= TableTop.Width && targetX >= 0)
+                {
+                    _positionX = targetX;
+                    return true;
+                }
             }
-
-            int targetX = _positionX + units;
-            if (targetX <= TableTop.Width && targetX >= 0)
-            {
-                _positionX = targetX;
-                return true;
-            }
-
             return false;
         }
 
         /// <summary>Returns true if the method succeeded. Otherwise, false.</summary> ///
         public bool MoveY(int units)
         {
-            if (!IsPlaced)
+            if (IsPlaced)
             {
-                return false;
-            }
-
-            int targetY = _positionY + units;
-            if (targetY <= TableTop.Height && targetY >= 0)
-            {
-                _positionY = targetY;
-                return true;
+                int targetY = _positionY + units;
+                if (targetY <= TableTop.Height && targetY >= 0)
+                {
+                    _positionY = targetY;
+                    return true;
+                }
             }
 
             return false;
@@ -130,23 +122,22 @@ namespace ToyRobotPuzzle.Common.Models.Entities
         /// <summary>Returns true if the method succeeded. Otherwise, false.</summary> ///
         public bool Rotate(int quarterClockWise)
         {
-            if (!IsPlaced)
+            if (IsPlaced)
             {
-                return false;
-            }
+                var targetDirection = (int)_facingDirection + (quarterClockWise % 4);
+                if (targetDirection < 0)
+                {
+                    targetDirection += 4;
+                }
+                else if (targetDirection > 3)
+                {
+                    targetDirection -= 4;
+                }
 
-            var targetDirection = (int)_facingDirection + (quarterClockWise % 4);
-            if (targetDirection < 0)
-            {
-                targetDirection += 4;
+                _facingDirection = (FacingDirection)targetDirection;
+                return true;
             }
-            else if(targetDirection > 3)
-            {
-                targetDirection -= 4;
-            }
-
-            _facingDirection = (FacingDirection)targetDirection;
-            return true;
+            return false;
         }
     }
 }

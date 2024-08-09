@@ -16,16 +16,16 @@ namespace ToyRobotPuzzle.Common.Business.Utilities
                 int robotPositionY = launcher.RobotPositionY!.Value;
                 FacingDirection facingDirection = launcher.RobotFacingDirection!.Value;
 
-                List<List<string>> strings = new List<List<string>>();
+                List<List<string>> stringRows = new List<List<string>>();
 
-                List<string> innerStrings = new List<string>();
+                List<string> stringRow = new List<string>();
                 for (int i = 0; i <= tableWidth; i++)
                 {
-                    innerStrings.Add(" ");
+                    stringRow.Add(" ");
                 }
                 for (int i = 0; i <= tableHeight; i++)
                 {
-                    strings.Add(new List<string>(innerStrings));
+                    stringRows.Add(new List<string>(stringRow));
                 }
 
                 string robotIcon = "o";
@@ -48,12 +48,12 @@ namespace ToyRobotPuzzle.Common.Business.Utilities
                 int x = tableHeight - robotPositionY;
                 int y = robotPositionX;
 
-                if (strings.Count - 1 >= x && strings[0].Count - 1 >= y)
+                if (stringRows.Count - 1 >= x && stringRows[0].Count - 1 >= y)
                 {
-                    strings[x][y] = robotIcon;
+                    stringRows[x][y] = robotIcon;
 
                     Console.WriteLine(" ");
-                    foreach (List<string> row in strings)
+                    foreach (List<string> row in stringRows)
                     {
                         Console.WriteLine($"|{string.Join(" ", row)}|");
                     }

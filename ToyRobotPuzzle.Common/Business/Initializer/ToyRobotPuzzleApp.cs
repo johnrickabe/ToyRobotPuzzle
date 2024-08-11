@@ -20,12 +20,6 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
             Robot = new Robot(TableTop);
         }
 
-        public ToyRobotPuzzleApp(TableTop tableTop)
-        {
-            TableTop = tableTop;
-            Robot = new Robot(tableTop);
-        }
-
         public void LaunchConsole()
         {
             Console.WriteLine("Toy Robot Puzzle!\n");

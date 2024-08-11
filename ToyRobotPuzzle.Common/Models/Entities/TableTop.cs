@@ -20,8 +20,8 @@ namespace ToyRobotPuzzle.Common.Models.Entities
             if (!Robots.Contains(robot))
             {
                 this.Robots.Add(robot);
-                robot.TableTop = this;
             }
+            robot.TableTop = this;
         }
     }
 }

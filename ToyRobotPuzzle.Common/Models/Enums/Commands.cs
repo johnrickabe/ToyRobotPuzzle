@@ -7,7 +7,6 @@
         LEFT,
         RIGHT,
         REPORT,
-        EXIT,
-        NULL
+        EXIT
     }
 }

@@ -7,7 +7,7 @@ namespace ToyRobotPuzzle.Common.Business.Utilities
         public class ParserResponse
         {
             public bool IsSuccess { get; set; } = false;
-            public Commands Command { get; set; } = Commands.NULL;
+            public Commands? Command { get; set; } = null;
             public List<string> Parameters { get; set; } = [];
             public string Message { get; set; } = string.Empty;
         }

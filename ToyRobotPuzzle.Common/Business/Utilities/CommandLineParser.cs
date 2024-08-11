@@ -16,7 +16,7 @@ namespace ToyRobotPuzzle.Common.Business.Utilities
             {
                 return ParsePlaceCommand(readLineArray);
             }
-            else if (_parameterLessCommands.Contains(commandWord) && commandWord != "NULL")
+            else if (_parameterLessCommands.Contains(commandWord))
             {
                 if (readLineArray.Length <= 1)
                 {

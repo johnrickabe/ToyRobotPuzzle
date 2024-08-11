@@ -14,6 +14,15 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
         private Robot Robot { get; set; }
         private bool IsLaunched { get; set; } = true;
 
+        public bool IsRobotPlaced => this.Robot.IsPlaced;
+
+        public FacingDirection? RobotFacingDirection => this.Robot.FacingDirection;
+        public int? RobotPositionX => this.Robot.PositionX;
+        public int? RobotPositionY => this.Robot.PositionY;
+
+        public int TableWidth => this.TableTop.Width;
+        public int TableHeight => this.TableTop.Height;
+
         public ToyRobotPuzzleApp()
         {
             TableTop = new TableTop();
@@ -80,7 +89,7 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
             }
         }
 
-        public void ExecutePlaceCommand(CommandLineParser.ParserResponse response)
+        private void ExecutePlaceCommand(CommandLineParser.ParserResponse response)
         {
             int x = int.Parse(response.Parameters[0]);
             int y = int.Parse(response.Parameters[1]);
@@ -107,7 +116,7 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
             }
         }
 
-        public void ExecuteMoveCommand()
+        private void ExecuteMoveCommand()
         {
             if (!this.Robot.IsPlaced)
             {
@@ -121,7 +130,7 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
                 Console.WriteLine(FAILURE_MESSAGE);
         }
 
-        public void ExecuteLeftCommand()
+        private void ExecuteLeftCommand()
         {
             if (!this.Robot.IsPlaced)
             {
@@ -133,7 +142,7 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
             Console.WriteLine(SUCCESS_MESSAGE);
         }
 
-        public void ExecuteRightCommand()
+        private void ExecuteRightCommand()
         {
             if (!this.Robot.IsPlaced)
             {
@@ -145,7 +154,7 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
             Console.WriteLine(SUCCESS_MESSAGE);
         }
 
-        public void ExecuteReportCommand()
+        private void ExecuteReportCommand()
         {
             if (!this.Robot.IsPlaced)
             {
@@ -155,15 +164,5 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
 
             Console.WriteLine($"Robot is at ({this.Robot.PositionX},{this.Robot.PositionY}) facing {this.Robot.FacingDirection}");
         }
-
-        public bool IsRobotPlaced => this.Robot.IsPlaced;
-
-        public FacingDirection? RobotFacingDirection => this.Robot.FacingDirection;
-        public int? RobotPositionX => this.Robot.PositionX;
-        public int? RobotPositionY => this.Robot.PositionY;
-
-        public int TableWidth => this.TableTop.Width;
-        public int TableHeight => this.TableTop.Height;
-
     }
 }

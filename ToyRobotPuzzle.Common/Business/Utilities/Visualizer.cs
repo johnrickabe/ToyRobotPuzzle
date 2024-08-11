@@ -1,56 +1,21 @@
 ﻿using ToyRobotPuzzle.Common.Business.Initializer;
-using ToyRobotPuzzle.Common.Models.Enums;
 
 namespace ToyRobotPuzzle.Common.Business.Utilities
 {
     public static class Visualizer
     {
-        public static void Visualize(ToyRobotPuzzleLauncher launcher)
+        public static void Visualize(ToyRobotPuzzleApp launcher)
         {
             if (launcher.IsRobotPlaced())
             {
-                int tableWidth = launcher.TableWidth;
-                int tableHeight = launcher.TableHeight;
+                var stringRows = Visualizer.CreateStringMatrix(launcher.TableWidth, launcher.TableHeight);
 
-                int robotPositionX = launcher.RobotPositionX!.Value;
-                int robotPositionY = launcher.RobotPositionY!.Value;
-                FacingDirection facingDirection = launcher.RobotFacingDirection!.Value;
-
-                List<List<string>> stringRows = new List<List<string>>();
-
-                List<string> stringRow = new List<string>();
-                for (int i = 0; i <= tableWidth; i++)
-                {
-                    stringRow.Add("+");
-                }
-                for (int i = 0; i <= tableHeight; i++)
-                {
-                    stringRows.Add(new List<string>(stringRow));
-                }
-
-                string robotIcon = "●";
-                switch (facingDirection)
-                {
-                    case FacingDirection.NORTH:
-                        robotIcon = "▲";
-                        break;
-                    case FacingDirection.SOUTH:
-                        robotIcon = "▼";
-                        break;
-                    case FacingDirection.WEST:
-                        robotIcon = "◄";
-                        break;
-                    case FacingDirection.EAST:
-                        robotIcon = "►";
-                        break;
-                }
-
-                int x = tableHeight - robotPositionY;
-                int y = robotPositionX;
+                int x = launcher.TableHeight - launcher.RobotPositionY!.Value;
+                int y = launcher.RobotPositionX!.Value;
 
                 if (stringRows.Count - 1 >= x && stringRows[0].Count - 1 >= y)
                 {
-                    stringRows[x][y] = robotIcon;
+                    stringRows[x][y] = (new string[] { "▲", "►", "▼", "◄" })[(int)launcher.RobotFacingDirection!.Value];
 
                     Console.WriteLine(" ");
                     foreach (List<string> row in stringRows)
@@ -60,6 +25,23 @@ namespace ToyRobotPuzzle.Common.Business.Utilities
                     Console.WriteLine(" ");
                 }
             }
+        }
+
+        private static List<List<string>> CreateStringMatrix(int width, int height)
+        {
+            List<List<string>> stringRows = [];
+            List<string> stringRow = [];
+
+            for (int i = 0; i <= width; i++)
+            {
+                stringRow.Add("+");
+            }
+            for (int i = 0; i <= height; i++)
+            {
+                stringRows.Add(new List<string>(stringRow));
+            }
+
+            return stringRows;
         }
     }
 }

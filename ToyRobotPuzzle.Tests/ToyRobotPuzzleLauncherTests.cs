@@ -5,12 +5,12 @@ namespace ToyRobotPuzzle.Tests
 {
     public class ToyRobotPuzzleLauncherTests
     {
-        ToyRobotPuzzleLauncher launcher;
+        ToyRobotPuzzleApp launcher;
 
         [SetUp]
         public void Setup()
         {
-            launcher = new ToyRobotPuzzleLauncher();
+            launcher = new ToyRobotPuzzleApp();
         }
 
         [Test]

@@ -5,7 +5,7 @@ using static ToyRobotPuzzle.Common.Business.Utilities.CommandLineParser;
 
 namespace ToyRobotPuzzle.Common.Business.Initializer
 {
-    public class ToyRobotPuzzleLauncher
+    public class ToyRobotPuzzleApp
     {
         private readonly string SUCCESS_MESSAGE = "Success!";
         private readonly string FAILURE_MESSAGE = "Failed! (Robot might fall off the edge)";
@@ -15,19 +15,19 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
         private Robot Robot { get; set; }
         private bool IsLaunched { get; set; } = true;
 
-        public ToyRobotPuzzleLauncher()
+        public ToyRobotPuzzleApp()
         {
             TableTop = new TableTop();
             Robot = new Robot(TableTop);
         }
 
-        public ToyRobotPuzzleLauncher(TableTop tableTop)
+        public ToyRobotPuzzleApp(TableTop tableTop)
         {
             TableTop = tableTop;
             Robot = new Robot(tableTop);
         }
 
-        public void LaunchConsoleApp()
+        public void LaunchConsole()
         {
             Console.WriteLine("Toy Robot Puzzle!\n");
             Console.WriteLine("Commands:");

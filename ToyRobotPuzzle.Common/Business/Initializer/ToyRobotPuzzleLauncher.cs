@@ -27,14 +27,14 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
             Robot = new Robot(tableTop);
         }
 
-        public void Launch()
+        public void LaunchConsoleApp()
         {
-            Console.WriteLine("Toy Robot Puzzle!");
+            Console.WriteLine("Toy Robot Puzzle!\n");
             Console.WriteLine("Commands:");
             Console.WriteLine("\"PLACE X,Y,[F]\" Where X and Y is an integer, and F is one of \"NORTH\",\"SOUTH\",\"EAST\", and \"WEST\". ([] = optional except on first use)");
             Console.WriteLine("\"MOVE\" will move the toy robot one unit forward in the direction it is currently facing.");
             Console.WriteLine("\"LEFT\" and \"RIGHT\" rotate the robot 90 degrees in the specified direction without changing the robot's position.");
-            Console.WriteLine("\"REPORT\" announces the X,Y and F of the robot. (e.g. output 1, 2 NORTH )");
+            Console.WriteLine("\"REPORT\" announces the X,Y and F of the robot. (e.g. output 1, 2 NORTH )\n");
 
             while (IsLaunched)
             {
@@ -68,16 +68,16 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
                         ExecutePlaceCommand(response);
                         break;
                     case Commands.MOVE:
-                        ExecuteMoveCommand(response);
+                        ExecuteMoveCommand();
                         break;
                     case Commands.LEFT:
-                        ExecuteLeftCommand(response);
+                        ExecuteLeftCommand();
                         break;
                     case Commands.RIGHT:
-                        ExecuteRightCommand(response);
+                        ExecuteRightCommand();
                         break;
                     case Commands.REPORT:
-                        ExecuteReportCommand(response);
+                        ExecuteReportCommand();
                         break;
                 }
             }
@@ -114,7 +114,7 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
             }
         }
 
-        public void ExecuteMoveCommand(CommandLineParserResponse response)
+        public void ExecuteMoveCommand()
         {
             if (!this.Robot.IsPlaced)
             {
@@ -128,7 +128,7 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
                 Console.WriteLine(FAILURE_MESSAGE);
         }
 
-        public void ExecuteLeftCommand(CommandLineParserResponse response)
+        public void ExecuteLeftCommand()
         {
             if (!this.Robot.IsPlaced)
             {
@@ -136,13 +136,11 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
                 return;
             }
 
-            if (this.Robot.Rotate(-1))
-                Console.WriteLine(SUCCESS_MESSAGE);
-            else
-                Console.WriteLine(FAILURE_MESSAGE);
+            this.Robot.Rotate(-1);
+            Console.WriteLine(SUCCESS_MESSAGE);
         }
 
-        public void ExecuteRightCommand(CommandLineParserResponse response)
+        public void ExecuteRightCommand()
         {
             if (!this.Robot.IsPlaced)
             {
@@ -150,13 +148,11 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
                 return;
             }
 
-            if (this.Robot.Rotate(1))
-                Console.WriteLine(SUCCESS_MESSAGE);
-            else
-                Console.WriteLine(FAILURE_MESSAGE);
+            this.Robot.Rotate(1);
+            Console.WriteLine(SUCCESS_MESSAGE);
         }
 
-        public void ExecuteReportCommand(CommandLineParserResponse response)
+        public void ExecuteReportCommand()
         {
             if (!this.Robot.IsPlaced)
             {
@@ -164,7 +160,7 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
                 return;
             }
 
-            Console.WriteLine($"Robot is at {this.Robot.PositionX}, {this.Robot.PositionY}, {this.Robot.FacingDirection}");
+            Console.WriteLine($"Robot is at ({this.Robot.PositionX},{this.Robot.PositionY}) facing {this.Robot.FacingDirection}");
         }
 
         public bool IsRobotPlaced() => this.Robot.IsPlaced;

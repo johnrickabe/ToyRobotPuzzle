@@ -7,7 +7,7 @@ namespace ToyRobotPuzzle
         public static void Main(string[] args)
         {
             var toyRobotPuzzleLauncher = new ToyRobotPuzzleLauncher();
-            toyRobotPuzzleLauncher.Launch();
+            toyRobotPuzzleLauncher.LaunchConsoleApp();
         }
     }
 }

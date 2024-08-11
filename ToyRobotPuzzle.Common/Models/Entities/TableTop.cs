@@ -35,5 +35,17 @@ namespace ToyRobotPuzzle.Common.Models.Entities
                 robot.TableTop = this;
             }
         }
+
+        public void MoveRobotToAnotherTable(Robot robot, TableTop targetTableTop)
+        {
+            if (!Robots.Contains(robot))
+            {
+                return;
+            }
+
+            this.Robots.Remove(robot);
+            targetTableTop.AddRobot(robot);
+            robot.TableTop = targetTableTop;
+        }
     }
 }

@@ -6,20 +6,6 @@ namespace ToyRobotPuzzle.Tests
     public class CommandLineParserTests
     {
         [Test]
-        public void ExitTests()
-        {
-            Assert.Multiple(() =>
-            {
-                Assert.That(CommandLineParser.TryParse("EXIT", out var response), Is.True);
-                Assert.That(response.Command, Is.EqualTo(Commands.EXIT));
-
-                Assert.That(CommandLineParser.TryParse(" EXIT", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("EXIT 123", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("EXIT 123 123", out _), Is.False);
-            });
-        }
-
-        [Test]
         public void PlaceTests()
         {
             Assert.Multiple(() =>
@@ -145,6 +131,64 @@ namespace ToyRobotPuzzle.Tests
                 Assert.That(CommandLineParser.TryParse(" REPORT", out _), Is.False);
                 Assert.That(CommandLineParser.TryParse("REPORT 123", out _), Is.False);
                 Assert.That(CommandLineParser.TryParse("REPORT 123 123", out _), Is.False);
+            });
+        }
+
+        [Test]
+        public void ExitTests()
+        {
+            Assert.Multiple(() =>
+            {
+                Assert.That(CommandLineParser.TryParse("EXIT", out var response), Is.True);
+                Assert.That(response.Command, Is.EqualTo(Commands.EXIT));
+
+                Assert.That(CommandLineParser.TryParse(" EXIT", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("EXIT 123", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("EXIT 123 123", out _), Is.False);
+            });
+        }
+
+        [Test]
+        public void RandomStringTests()
+        {
+            Assert.Multiple(() =>
+            {
+                Assert.That(CommandLineParser.TryParse("place 1,2,NORTH", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("PLACe 1,2,NORTH", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("Place 1,2,NORTH", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("PlAcE 1,2,NORTH", out _), Is.False);
+            });
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(CommandLineParser.TryParse("move", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("Move", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("MoVe", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("MOve", out _), Is.False);
+            });
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(CommandLineParser.TryParse("left", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("Left", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("LeFt", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("LEft", out _), Is.False);
+            });
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(CommandLineParser.TryParse("right", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("Right", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("RiGhT", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("RIGht", out _), Is.False);
+            });
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(CommandLineParser.TryParse("report", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("Report", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("RePoRt", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("REPort", out _), Is.False);
             });
         }
     }

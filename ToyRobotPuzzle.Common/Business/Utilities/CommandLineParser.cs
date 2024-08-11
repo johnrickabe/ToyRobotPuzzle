@@ -40,9 +40,9 @@ namespace ToyRobotPuzzle.Common.Business.Utilities
 
             if (Enum.TryParse<Commands>(commandWord, out var commandEnum))
             {
-                    response.Command = commandEnum;
-                    response.IsSuccess = true;
-                    return response;
+                response.Command = commandEnum;
+                response.IsSuccess = true;
+                return response;
             }
 
             response.Message = $"Could not parse command '{commandWord}'.";

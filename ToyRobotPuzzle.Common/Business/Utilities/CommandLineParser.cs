@@ -4,12 +4,12 @@ namespace ToyRobotPuzzle.Common.Business.Utilities
 {
     public static partial class CommandLineParser
     {
-        public static bool TryParse(string readLine, out CommandLineParserResponse response)
+        public static bool TryParse(string readLine, out ParserResponse response)
         {
             var readLineArray = readLine.Split(' ');
             var commandWord = readLineArray[0];
 
-            response = new CommandLineParserResponse();
+            response = new ParserResponse();
             if (commandWord == Commands.PLACE.ToString())
             {
                 return TryParsePlaceCommand(readLineArray, out response);
@@ -31,9 +31,9 @@ namespace ToyRobotPuzzle.Common.Business.Utilities
             return false;
         }
 
-        private static bool TryParsePlaceCommand(string[] readLineArray, out CommandLineParserResponse response)
+        private static bool TryParsePlaceCommand(string[] readLineArray, out ParserResponse response)
         {
-            response = new CommandLineParserResponse();
+            response = new ParserResponse();
             if (readLineArray.Length == 2)
             {
                 var parameters = readLineArray[1].Split(',');

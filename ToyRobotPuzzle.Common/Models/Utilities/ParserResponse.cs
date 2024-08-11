@@ -4,7 +4,7 @@ namespace ToyRobotPuzzle.Common.Business.Utilities
 {
     public static partial class CommandLineParser
     {
-        public class CommandLineParserResponse
+        public class ParserResponse
         {
             public Commands Command { get; set; } = Commands.NULL;
             public List<string> Parameters { get; set; } = [];

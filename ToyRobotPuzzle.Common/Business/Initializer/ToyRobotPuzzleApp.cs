@@ -1,7 +1,6 @@
 ﻿using ToyRobotPuzzle.Common.Business.Utilities;
 using ToyRobotPuzzle.Common.Models.Entities;
 using ToyRobotPuzzle.Common.Models.Enums;
-using static ToyRobotPuzzle.Common.Business.Utilities.CommandLineParser;
 
 namespace ToyRobotPuzzle.Common.Business.Initializer
 {
@@ -86,7 +85,7 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
             }
         }
 
-        public void ExecutePlaceCommand(CommandLineParserResponse response)
+        public void ExecutePlaceCommand(CommandLineParser.ParserResponse response)
         {
             int x = int.Parse(response.Parameters[0]);
             int y = int.Parse(response.Parameters[1]);

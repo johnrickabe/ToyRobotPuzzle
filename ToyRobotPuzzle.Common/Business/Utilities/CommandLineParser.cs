@@ -14,7 +14,7 @@ namespace ToyRobotPuzzle.Common.Business.Utilities
             #region EXIT
             if (commandWord == Commands.EXIT.ToString())
             {
-                if(readLineArray.Length > 1)
+                if (readLineArray.Length > 1)
                 {
                     response.Message = "EXIT does not accept any parameter.";
                     return false;
@@ -38,19 +38,19 @@ namespace ToyRobotPuzzle.Common.Business.Utilities
                     response.Message = "PLACE should have parameters X:int,Y:int,[F:string] ([] = optional after first use)";
                     return false;
                 }
-                else if(readLineArray.Length == 2)
+                else if (readLineArray.Length == 2)
                 {
                     var parameters = readLineArray[1].Split(',');
-                    if(parameters.Length == 1)
+                    if (parameters.Length == 1)
                     {
                         response.Message = "PLACE should have parameters X:int,Y:int,[F:string] ([] = optional after first use)";
                         return false;
                     }
-                    else if(parameters.Length == 2)
+                    else if (parameters.Length == 2)
                     {
                         var stringX = parameters[0];
                         var stringY = parameters[1];
-                        if (int.TryParse(stringX, out var x) && int.TryParse(stringY, out var y)) 
+                        if (int.TryParse(stringX, out var x) && int.TryParse(stringY, out var y))
                         {
                             response.Parameters.Add(stringX);
                             response.Parameters.Add(stringY);

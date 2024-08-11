@@ -4,54 +4,63 @@ namespace ToyRobotPuzzle.Common.Business.Utilities
 {
     public static partial class CommandLineParser
     {
-        public static bool TryParse(string readLine, out ParserResponse response)
+        public static ParserResponse ParseCommand(string readLine)
         {
             var readLineArray = readLine.Split(' ');
             var commandWord = readLineArray[0];
+            var isPlace = commandWord == Commands.PLACE.ToString();
 
-            if (commandWord == Commands.PLACE.ToString())
+            if (isPlace)
             {
-                return TryParsePlaceCommand(readLineArray, out response);
+                return ParsePlaceCommand(readLineArray);
             }
-            else if (TryParseParameterlessCommands(readLineArray, out response))
+            else if (Enum.IsDefined(typeof(Commands), commandWord) && !isPlace && commandWord != "NULL")
             {
-                return true;
+                return ParseParameterlessCommands(readLineArray);
             }
 
-            response.Message = $"Invalid command: {commandWord}";
-            return false;
+            ParserResponse response = new()
+            {
+                Message = $"Invalid command: {commandWord}"
+            };
+            return response;
         }
 
-        public static bool TryParseParameterlessCommands(string[] readLineArray, out ParserResponse response)
+       
+        private static ParserResponse ParseParameterlessCommands(string[] readLineArray)
         {
             var commandWord = readLineArray[0];
-            response = new ParserResponse();
+
+            ParserResponse response = new();
 
             if (Enum.TryParse<Commands>(commandWord, out var commandEnum))
             {
+                if(commandEnum == Commands.PLACE) return response;
+
                 if (readLineArray.Length <= 1)
                 {
                     response.Command = commandEnum;
-                    return true;
+                    response.IsSuccess = true;
+                    return response;
                 }
 
                 response.Message = $"{commandWord} does not accept any parameter.";
             }
 
-            return false;
+            return response;
         }
 
-        private static bool TryParsePlaceCommand(string[] readLineArray, out ParserResponse response)
+        private static ParserResponse ParsePlaceCommand(string[] readLineArray)
         {
-            response = new ParserResponse();
-            if (readLineArray[0] != Commands.PLACE.ToString()) return false;
+            ParserResponse response = new();
+
             if (readLineArray.Length == 2)
             {
                 var parameters = readLineArray[1].Split(',');
                 if (parameters.Length == 1)
                 {
                     response.Message = "PLACE should have parameters X:int,Y:int,[F:string] ([] = optional after first use)";
-                    return false;
+                    return response;
                 }
 
                 var stringX = parameters[0];
@@ -68,16 +77,17 @@ namespace ToyRobotPuzzle.Common.Business.Utilities
                         if (!Enum.IsDefined(typeof(FacingDirection), stringF))
                         {
                             response.Message = $"{stringF} is not a valid direction.";
-                            return false;
+                            return response;
                         }
                         response.Parameters.Add(stringF);
                     }
 
-                    return true;
+                    response.IsSuccess = true;
+                    return response;
                 }
 
                 response.Message = $"{stringX} and/or {stringY} is/are not valid integers.";
-                return false;
+                return response;
             }
             else if (readLineArray.Length > 2)
             {
@@ -92,7 +102,7 @@ namespace ToyRobotPuzzle.Common.Business.Utilities
                 response.Message = "An error has occured.";
             }
 
-            return false;
+            return response;
         }
     }
 }

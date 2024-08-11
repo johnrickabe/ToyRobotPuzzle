@@ -10,31 +10,34 @@ namespace ToyRobotPuzzle.Tests
         {
             Assert.Multiple(() =>
             {
-                Assert.That(CommandLineParser.TryParse("PLACE", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("PLACE 123", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("PLACE 123 123", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse(" PLACE 123 123", out _), Is.False);
+                Assert.That(CommandLineParser.ParseCommand("PLACE").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("PLACE 123").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("PLACE 123 123").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand(" PLACE 123 123").IsSuccess, Is.False);
 
-                Assert.That(CommandLineParser.TryParse("PLACE 1,2", out _), Is.True);
-                Assert.That(CommandLineParser.TryParse("PLACE -1,2", out _), Is.True);
+                Assert.That(CommandLineParser.ParseCommand("PLACE 1,2").IsSuccess, Is.True);
+                Assert.That(CommandLineParser.ParseCommand("PLACE -1,2").IsSuccess, Is.True);
 
                 Assert.Multiple(() =>
                 {
-                    Assert.That(CommandLineParser.TryParse("PLACE 4245663,7421331", out var response), Is.True);
+                    var response = CommandLineParser.ParseCommand("PLACE 4245663,7421331");
+                    Assert.That(response.IsSuccess, Is.True);
                     Assert.That(response.Parameters[0], Is.EqualTo("4245663"));
                     Assert.That(response.Parameters[1], Is.EqualTo("7421331"));
                 });
 
                 Assert.Multiple(() =>
                 {
-                    Assert.That(CommandLineParser.TryParse("PLACE 651587,-623351", out var response), Is.True);
+                    var response = CommandLineParser.ParseCommand("PLACE 651587,-623351");
+                    Assert.That(response.IsSuccess, Is.True);
                     Assert.That(response.Parameters[0], Is.EqualTo("651587"));
                     Assert.That(response.Parameters[1], Is.EqualTo("-623351"));
                 });
 
                 Assert.Multiple(() =>
                 {
-                    Assert.That(CommandLineParser.TryParse("PLACE 1,2,NORTH", out var response), Is.True);
+                    var response = CommandLineParser.ParseCommand("PLACE 1,2,NORTH");
+                    Assert.That(response.IsSuccess, Is.True);
                     Assert.That(response.Parameters[0], Is.EqualTo("1"));
                     Assert.That(response.Parameters[1], Is.EqualTo("2"));
                     Assert.That(response.Parameters[2], Is.EqualTo("NORTH"));
@@ -42,7 +45,8 @@ namespace ToyRobotPuzzle.Tests
 
                 Assert.Multiple(() =>
                 {
-                    Assert.That(CommandLineParser.TryParse("PLACE -1,2,SOUTH", out var response), Is.True);
+                    var response = CommandLineParser.ParseCommand("PLACE -1,2,SOUTH");
+                    Assert.That(response.IsSuccess, Is.True);
                     Assert.That(response.Command, Is.EqualTo(Commands.PLACE));
                     Assert.That(response.Parameters[0], Is.EqualTo("-1"));
                     Assert.That(response.Parameters[1], Is.EqualTo("2"));
@@ -51,7 +55,8 @@ namespace ToyRobotPuzzle.Tests
 
                 Assert.Multiple(() =>
                 {
-                    Assert.That(CommandLineParser.TryParse("PLACE 330,400,EAST", out var response), Is.True);
+                    var response = CommandLineParser.ParseCommand("PLACE 330,400,EAST");
+                    Assert.That(response.IsSuccess, Is.True);
                     Assert.That(response.Command, Is.EqualTo(Commands.PLACE));
                     Assert.That(response.Parameters[0], Is.EqualTo("330"));
                     Assert.That(response.Parameters[1], Is.EqualTo("400"));
@@ -60,21 +65,22 @@ namespace ToyRobotPuzzle.Tests
 
                 Assert.Multiple(() =>
                 {
-                    Assert.That(CommandLineParser.TryParse("PLACE 482,2,WEST", out var response), Is.True);
+                    var response = CommandLineParser.ParseCommand("PLACE 482,2,WEST");
+                    Assert.That(response.IsSuccess, Is.True);
                     Assert.That(response.Command, Is.EqualTo(Commands.PLACE));
                     Assert.That(response.Parameters[0], Is.EqualTo("482"));
                     Assert.That(response.Parameters[1], Is.EqualTo("2"));
                     Assert.That(response.Parameters[2], Is.EqualTo("WEST"));
                 });
 
-                Assert.That(CommandLineParser.TryParse("PLACE 482,2,WEST ", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("PLACE 482,2,WHEAT", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("PLACE WEST,1,2", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("PLACE 1.0,2,WEST", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("PLACE 1,-2.0,WEST", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("PLACE -1,2.0,WEST", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("PLACE -1,-2.0,WEST", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("PLACE 1,2 ", out _), Is.False);
+                Assert.That(CommandLineParser.ParseCommand("PLACE 482,2,WEST ").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("PLACE 482,2,WHEAT").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("PLACE WEST,1,2").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("PLACE 1.0,2,WEST").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("PLACE 1,-2.0,WEST").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("PLACE -1,2.0,WEST").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("PLACE -1,-2.0,WEST").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("PLACE 1,2 ").IsSuccess, Is.False);
             });
         }
 
@@ -83,13 +89,14 @@ namespace ToyRobotPuzzle.Tests
         {
             Assert.Multiple(() =>
             {
-                Assert.That(CommandLineParser.TryParse("MOVE", out var response), Is.True);
+                var response = CommandLineParser.ParseCommand("MOVE");
+                Assert.That(response.IsSuccess, Is.True);
                 Assert.That(response.Command, Is.EqualTo(Commands.MOVE));
-
-                Assert.That(CommandLineParser.TryParse(" MOVE", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("MOVE 123", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("MOVE 123 123", out _), Is.False);
             });
+
+            Assert.That(CommandLineParser.ParseCommand(" MOVE").IsSuccess, Is.False);
+            Assert.That(CommandLineParser.ParseCommand("MOVE 123").IsSuccess, Is.False);
+            Assert.That(CommandLineParser.ParseCommand("MOVE 123 123").IsSuccess, Is.False);
         }
 
         [Test]
@@ -97,12 +104,13 @@ namespace ToyRobotPuzzle.Tests
         {
             Assert.Multiple(() =>
             {
-                Assert.That(CommandLineParser.TryParse("LEFT", out var response), Is.True);
+                var response = CommandLineParser.ParseCommand("LEFT");
+                Assert.That(response.IsSuccess, Is.True);
                 Assert.That(response.Command, Is.EqualTo(Commands.LEFT));
 
-                Assert.That(CommandLineParser.TryParse(" LEFT", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("LEFT 123", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("LEFT 123 123", out _), Is.False);
+                Assert.That(CommandLineParser.ParseCommand(" LEFT").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("LEFT 123").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("LEFT 123 123").IsSuccess, Is.False);
             });
         }
 
@@ -111,12 +119,13 @@ namespace ToyRobotPuzzle.Tests
         {
             Assert.Multiple(() =>
             {
-                Assert.That(CommandLineParser.TryParse("RIGHT", out var response), Is.True);
+                var response = CommandLineParser.ParseCommand("RIGHT");
+                Assert.That(response.IsSuccess, Is.True);
                 Assert.That(response.Command, Is.EqualTo(Commands.RIGHT));
 
-                Assert.That(CommandLineParser.TryParse(" RIGHT", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("RIGHT 123", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("RIGHT 123 123", out _), Is.False);
+                Assert.That(CommandLineParser.ParseCommand(" RIGHT").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("RIGHT 123").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("RIGHT 123 123").IsSuccess, Is.False);
             });
         }
 
@@ -125,12 +134,13 @@ namespace ToyRobotPuzzle.Tests
         {
             Assert.Multiple(() =>
             {
-                Assert.That(CommandLineParser.TryParse("REPORT", out var response), Is.True);
+                var response = CommandLineParser.ParseCommand("REPORT");
+                Assert.That(response.IsSuccess, Is.True);
                 Assert.That(response.Command, Is.EqualTo(Commands.REPORT));
 
-                Assert.That(CommandLineParser.TryParse(" REPORT", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("REPORT 123", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("REPORT 123 123", out _), Is.False);
+                Assert.That(CommandLineParser.ParseCommand(" REPORT").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("REPORT 123").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("REPORT 123 123").IsSuccess, Is.False);
             });
         }
 
@@ -139,12 +149,13 @@ namespace ToyRobotPuzzle.Tests
         {
             Assert.Multiple(() =>
             {
-                Assert.That(CommandLineParser.TryParse("EXIT", out var response), Is.True);
+                var response = CommandLineParser.ParseCommand("EXIT");
+                Assert.That(response.IsSuccess, Is.True);
                 Assert.That(response.Command, Is.EqualTo(Commands.EXIT));
 
-                Assert.That(CommandLineParser.TryParse(" EXIT", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("EXIT 123", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("EXIT 123 123", out _), Is.False);
+                Assert.That(CommandLineParser.ParseCommand(" EXIT").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("EXIT 123").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("EXIT 123 123").IsSuccess, Is.False);
             });
         }
 
@@ -153,43 +164,46 @@ namespace ToyRobotPuzzle.Tests
         {
             Assert.Multiple(() =>
             {
-                Assert.That(CommandLineParser.TryParse("place 1,2,NORTH", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("PLACe 1,2,NORTH", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("Place 1,2,NORTH", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("PlAcE 1,2,NORTH", out _), Is.False);
+                Assert.That(CommandLineParser.ParseCommand("place 1,2,NORTH").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("PLACe 1,2,NORTH").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("Place 1,2,NORTH").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("PlAcE 1,2,NORTH").IsSuccess, Is.False);
             });
 
             Assert.Multiple(() =>
             {
-                Assert.That(CommandLineParser.TryParse("move", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("Move", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("MoVe", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("MOve", out _), Is.False);
+                Assert.That(CommandLineParser.ParseCommand("move").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("Move").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("MoVe").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("MOve").IsSuccess, Is.False);
             });
 
             Assert.Multiple(() =>
             {
-                Assert.That(CommandLineParser.TryParse("left", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("Left", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("LeFt", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("LEft", out _), Is.False);
+                Assert.That(CommandLineParser.ParseCommand("left").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("Left").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("LeFt").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("LEft").IsSuccess, Is.False);
             });
 
             Assert.Multiple(() =>
             {
-                Assert.That(CommandLineParser.TryParse("right", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("Right", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("RiGhT", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("RIGht", out _), Is.False);
+                Assert.That(CommandLineParser.ParseCommand("right").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("Right").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("RiGhT").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("RIGht").IsSuccess, Is.False);
             });
 
             Assert.Multiple(() =>
             {
-                Assert.That(CommandLineParser.TryParse("report", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("Report", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("RePoRt", out _), Is.False);
-                Assert.That(CommandLineParser.TryParse("REPort", out _), Is.False);
+                Assert.That(CommandLineParser.ParseCommand("report").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("Report").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("RePoRt").IsSuccess, Is.False);
+                Assert.That(CommandLineParser.ParseCommand("REPort").IsSuccess, Is.False);
             });
+
+            Assert.That(CommandLineParser.ParseCommand(" ").IsSuccess, Is.False);
+            Assert.That(CommandLineParser.ParseCommand("").IsSuccess, Is.False);
         }
     }
 }

@@ -46,8 +46,8 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
 
         public void ExecuteCommand(string readLine)
         {
-            var isParsed = CommandLineParser.TryParse(readLine, out var response);
-            if (isParsed)
+            var response = CommandLineParser.ParseCommand(readLine);
+            if (response.IsSuccess)
             {
                 switch (response.Command)
                 {

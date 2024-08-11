@@ -4,49 +4,48 @@ namespace ToyRobotPuzzle.Common.Business.Utilities
 {
     public static partial class CommandLineParser
     {
+        private static readonly List<string> _parameterLessCommands = [Commands.MOVE.ToString(), Commands.LEFT.ToString(), Commands.RIGHT.ToString(), Commands.REPORT.ToString(), Commands.EXIT.ToString()];
+
         public static ParserResponse ParseCommand(string readLine)
         {
             var readLineArray = readLine.Split(' ');
             var commandWord = readLineArray[0];
-            var isPlace = commandWord == Commands.PLACE.ToString();
+            var response = new ParserResponse();
 
-            if (isPlace)
+            if (commandWord == Commands.PLACE.ToString())
             {
                 return ParsePlaceCommand(readLineArray);
             }
-            else if (Enum.IsDefined(typeof(Commands), commandWord) && !isPlace && commandWord != "NULL")
+            else if (_parameterLessCommands.Contains(commandWord) && commandWord != "NULL")
             {
-                return ParseParameterlessCommands(readLineArray);
-            }
-
-            ParserResponse response = new()
-            {
-                Message = $"Invalid command: {commandWord}"
-            };
-            return response;
-        }
-
-       
-        private static ParserResponse ParseParameterlessCommands(string[] readLineArray)
-        {
-            var commandWord = readLineArray[0];
-
-            ParserResponse response = new();
-
-            if (Enum.TryParse<Commands>(commandWord, out var commandEnum))
-            {
-                if(commandEnum == Commands.PLACE) return response;
-
                 if (readLineArray.Length <= 1)
                 {
-                    response.Command = commandEnum;
-                    response.IsSuccess = true;
-                    return response;
+                    return ParseParameterlessCommand(commandWord);
                 }
 
                 response.Message = $"{commandWord} does not accept any parameter.";
             }
+            else
+            {
+                response.Message = $"Invalid command: {commandWord}";
+            }
 
+            return response;
+        }
+
+
+        private static ParserResponse ParseParameterlessCommand(string commandWord)
+        {
+            ParserResponse response = new();
+
+            if (Enum.TryParse<Commands>(commandWord, out var commandEnum))
+            {
+                    response.Command = commandEnum;
+                    response.IsSuccess = true;
+                    return response;
+            }
+
+            response.Message = $"Could not parse command '{commandWord}'.";
             return response;
         }
 

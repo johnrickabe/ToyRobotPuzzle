@@ -21,7 +21,7 @@ namespace ToyRobotPuzzle.Common.Models.Entities
             this.TableTop.MoveRobotToAnotherTable(this, tableTop);
         }
 
-        /// <returns>Returns true if the method succeeded. Otherwise, false.</returns> ///
+        /// <returns>Returns <see langword="true"/> if the method succeeded. Otherwise, <see langword="false"/>.</returns> ///
         public bool Place(int x, int y)
         {
             if (IsPlaced)
@@ -32,7 +32,7 @@ namespace ToyRobotPuzzle.Common.Models.Entities
             return false;
         }
 
-        /// <returns>Returns true if the method succeeded. Otherwise, false.</returns> ///
+        /// <returns>Returns <see langword="true"/> if the method succeeded. Otherwise, <see langword="false"/>.</returns> ///
         public bool Place(int x, int y, FacingDirection facingDirection)
         {
             /* Assumption: Robot can stand at one point on the edges and corners */
@@ -48,7 +48,7 @@ namespace ToyRobotPuzzle.Common.Models.Entities
             return false;
         }
 
-        /// <returns>Returns true if the method succeeded. Otherwise, false.</returns> ///
+        /// <returns>Returns <see langword="true"/> if the method succeeded. Otherwise, <see langword="false"/>.</returns> ///
         public bool MoveForward(int units = 1)
         {
             switch (FacingDirection)
@@ -67,7 +67,7 @@ namespace ToyRobotPuzzle.Common.Models.Entities
             return false;
         }
 
-        /// <returns>Returns true if the method succeeded. Otherwise, false.</returns> ///
+        /// <returns>Returns <see langword="true"/> if the method succeeded. Otherwise, <see langword="false"/>.</returns> ///
         public bool MoveX(int units)
         {
             if (IsPlaced)
@@ -82,7 +82,7 @@ namespace ToyRobotPuzzle.Common.Models.Entities
             return false;
         }
 
-        /// <returns>Returns true if the method succeeded. Otherwise, false.</returns> ///
+        /// <returns>Returns <see langword="true"/> if the method succeeded. Otherwise, <see langword="false"/>.</returns> ///
         public bool MoveY(int units)
         {
             if (IsPlaced)
@@ -98,7 +98,7 @@ namespace ToyRobotPuzzle.Common.Models.Entities
             return false;
         }
 
-        /// <returns>Returns true if the method succeeded. Otherwise, false.</returns> ///
+        /// <returns>Returns <see langword="true"/> if the method succeeded. Otherwise, <see langword="false"/>.</returns> ///
         public bool Rotate(int quarterClockWise)
         {
             if (IsPlaced)

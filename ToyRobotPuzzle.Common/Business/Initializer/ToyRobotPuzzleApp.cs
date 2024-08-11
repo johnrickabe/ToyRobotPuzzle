@@ -45,10 +45,6 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
                 {
                     ExecuteCommand(readLine);
                 }
-                else
-                {
-                    Console.WriteLine($"Error: Invalid command: '{readLine}'");
-                }
 
                 Visualizer.Visualize(this);
             }
@@ -78,6 +74,9 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
                         break;
                     case Commands.REPORT:
                         ExecuteReportCommand();
+                        break;
+                    default:
+                        Console.WriteLine($"Error: Invalid command: '{readLine}'");
                         break;
                 }
             }

@@ -20,49 +20,5 @@ namespace ToyRobotPuzzle.Tests
                 Assert.That(tableTop.Width, Is.EqualTo(5));
             });
         }
-
-        [Test]
-        public void MoveRobotToAnotherTable()
-        {
-            var anotherTableTop = new TableTop();
-            var robot = new Robot(tableTop);
-
-            Assert.Multiple(() =>
-            {
-                Assert.That(robot.TableTop, Is.EqualTo(tableTop));
-                Assert.That(tableTop.Robots, Does.Contain(robot));
-                Assert.That(anotherTableTop.Robots, Does.Not.Contain(robot));
-            });
-
-            tableTop.MoveRobotToAnotherTable(robot, anotherTableTop);
-            Assert.Multiple(() =>
-            {
-                Assert.That(robot.TableTop, Is.EqualTo(anotherTableTop));
-                Assert.That(anotherTableTop.Robots, Does.Contain(robot));
-                Assert.That(tableTop.Robots, Does.Not.Contain(robot));
-            });
-        }
-
-        [Test]
-        public void MoveRobotToAnotherTableFromRobot()
-        {
-            var anotherTableTop = new TableTop();
-            var robot = new Robot(tableTop);
-
-            Assert.Multiple(() =>
-            {
-                Assert.That(robot.TableTop, Is.EqualTo(tableTop));
-                Assert.That(tableTop.Robots, Does.Contain(robot));
-                Assert.That(anotherTableTop.Robots, Does.Not.Contain(robot));
-            });
-
-            robot.MoveToTable(anotherTableTop);
-            Assert.Multiple(() =>
-            {
-                Assert.That(robot.TableTop, Is.EqualTo(anotherTableTop));
-                Assert.That(anotherTableTop.Robots, Does.Contain(robot));
-                Assert.That(tableTop.Robots, Does.Not.Contain(robot));
-            });
-        }
     }
 }

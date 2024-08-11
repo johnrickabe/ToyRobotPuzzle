@@ -9,21 +9,12 @@ namespace ToyRobotPuzzle.Common.Business.Utilities
             var readLineArray = readLine.Split(' ');
             var commandWord = readLineArray[0];
 
-            response = new ParserResponse();
             if (commandWord == Commands.PLACE.ToString())
             {
                 return TryParsePlaceCommand(readLineArray, out response);
             }
-            // Parameter-less Commands
-            else if (Enum.TryParse<Commands>(commandWord, out var commandWordEnum))
+            else if (TryParseParameterlessCommands(readLineArray, out response))
             {
-                if (readLineArray.Length > 1)
-                {
-                    response.Message = $"{commandWord} does not accept any parameter.";
-                    return false;
-                }
-
-                response.Command = commandWordEnum;
                 return true;
             }
 
@@ -31,9 +22,29 @@ namespace ToyRobotPuzzle.Common.Business.Utilities
             return false;
         }
 
+        public static bool TryParseParameterlessCommands(string[] readLineArray, out ParserResponse response)
+        {
+            var commandWord = readLineArray[0];
+            response = new ParserResponse();
+
+            if (Enum.TryParse<Commands>(commandWord, out var commandEnum))
+            {
+                if (readLineArray.Length <= 1)
+                {
+                    response.Command = commandEnum;
+                    return true;
+                }
+
+                response.Message = $"{commandWord} does not accept any parameter.";
+            }
+
+            return false;
+        }
+
         private static bool TryParsePlaceCommand(string[] readLineArray, out ParserResponse response)
         {
             response = new ParserResponse();
+            if (readLineArray[0] != Commands.PLACE.ToString()) return false;
             if (readLineArray.Length == 2)
             {
                 var parameters = readLineArray[1].Split(',');
@@ -42,48 +53,45 @@ namespace ToyRobotPuzzle.Common.Business.Utilities
                     response.Message = "PLACE should have parameters X:int,Y:int,[F:string] ([] = optional after first use)";
                     return false;
                 }
-                else
+
+                var stringX = parameters[0];
+                var stringY = parameters[1];
+
+                if (int.TryParse(stringX, out var _) && int.TryParse(stringY, out var _))
                 {
-                    var stringX = parameters[0];
-                    var stringY = parameters[1];
+                    response.Parameters.AddRange([stringX, stringY]);
+                    response.Command = Commands.PLACE;
 
-                    if(parameters.Length == 2)
+                    if (parameters.Length == 3)
                     {
-                        if (int.TryParse(stringX, out var _) && int.TryParse(stringY, out var _))
+                        var stringF = parameters[2];
+                        if (!Enum.IsDefined(typeof(FacingDirection), stringF))
                         {
-                            response.Parameters.AddRange([stringX, stringY]);
-                            response.Command = Commands.PLACE;
-                            return true;
+                            response.Message = $"{stringF} is not a valid direction.";
+                            return false;
                         }
-                        response.Message = "X and Y are not valid integers.";
-                        return false;
+                        response.Parameters.Add(stringF);
                     }
 
-                    var stringF = parameters[2];
-
-                    if (int.TryParse(stringX, out var _) && int.TryParse(stringY, out var _) && Enum.IsDefined(typeof(FacingDirection), stringF))
-                    {
-                        response.Parameters.AddRange([stringX, stringY, stringF]);
-                        response.Command = Commands.PLACE;
-                        return true;
-                    }
-                    response.Message = "One or more parameters is in valid.";
-                    return false;
-
+                    return true;
                 }
+
+                response.Message = $"{stringX} and/or {stringY} is/are not valid integers.";
+                return false;
             }
             else if (readLineArray.Length > 2)
             {
                 response.Message = "PLACE command should only have one space character.";
-                return false;
             }
             else if (readLineArray.Length == 1)
             {
                 response.Message = "PLACE should have parameters X:int,Y:int,[F:string] ([] = optional after first use)";
-                return false;
+            }
+            else
+            {
+                response.Message = "An error has occured.";
             }
 
-            response.Message = "An error has occured.";
             return false;
         }
     }

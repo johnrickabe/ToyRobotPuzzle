@@ -33,7 +33,8 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
             Console.WriteLine("\"PLACE X,Y,[F]\" Where X and Y is an integer, and F is one of \"NORTH\",\"SOUTH\",\"EAST\", and \"WEST\". ([] = optional except on first use)");
             Console.WriteLine("\"MOVE\" will move the toy robot one unit forward in the direction it is currently facing.");
             Console.WriteLine("\"LEFT\" and \"RIGHT\" rotate the robot 90 degrees in the specified direction without changing the robot's position.");
-            Console.WriteLine("\"REPORT\" announces the X,Y and F of the robot. (e.g. output 1, 2 NORTH )\n");
+            Console.WriteLine("\"REPORT\" announces the X,Y and F of the robot. (e.g. output 1, 2 NORTH )");
+            Console.WriteLine("\"EXIT\" to close the application.\n");
 
             while (IsLaunched)
             {

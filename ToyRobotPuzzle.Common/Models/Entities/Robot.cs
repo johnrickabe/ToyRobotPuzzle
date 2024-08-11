@@ -16,20 +16,11 @@ namespace ToyRobotPuzzle.Common.Models.Entities
             tableTop.AddRobot(this);
         }
 
-        public void MoveToTable(TableTop tableTop)
-        {
-            this.TableTop.MoveRobotToAnotherTable(this, tableTop);
-        }
-
         /// <returns>Returns <see langword="true"/> if the method succeeded. Otherwise, <see langword="false"/>.</returns> ///
         public bool Place(int x, int y)
         {
-            if (IsPlaced)
-            {
-                return Place(x, y, FacingDirection!.Value);
-            }
-
-            return false;
+            if (!IsPlaced) return false;
+            return Place(x, y, FacingDirection!.Value);
         }
 
         /// <returns>Returns <see langword="true"/> if the method succeeded. Otherwise, <see langword="false"/>.</returns> ///
@@ -101,22 +92,20 @@ namespace ToyRobotPuzzle.Common.Models.Entities
         /// <returns>Returns <see langword="true"/> if the method succeeded. Otherwise, <see langword="false"/>.</returns> ///
         public bool Rotate(int quarterClockWise)
         {
-            if (IsPlaced)
-            {
-                var targetDirection = (int)FacingDirection!.Value + (quarterClockWise % 4);
-                if (targetDirection < 0)
-                {
-                    targetDirection += 4;
-                }
-                else if (targetDirection > 3)
-                {
-                    targetDirection -= 4;
-                }
+            if (!IsPlaced) return false;
 
-                FacingDirection = (FacingDirection)targetDirection;
-                return true;
+            var targetDirection = (int)FacingDirection!.Value + (quarterClockWise % 4);
+            if (targetDirection < 0)
+            {
+                targetDirection += 4;
             }
-            return false;
+            else if (targetDirection > 3)
+            {
+                targetDirection -= 4;
+            }
+
+            FacingDirection = (FacingDirection)targetDirection;
+            return true;
         }
     }
 }

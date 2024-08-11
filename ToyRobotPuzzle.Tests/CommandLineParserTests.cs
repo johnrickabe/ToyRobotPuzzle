@@ -31,16 +31,63 @@ namespace ToyRobotPuzzle.Tests
 
                 Assert.That(CommandLineParser.TryParse("PLACE 1,2", out _), Is.True);
                 Assert.That(CommandLineParser.TryParse("PLACE -1,2", out _), Is.True);
-                Assert.That(CommandLineParser.TryParse("PLACE 4245663,7421331", out _), Is.True);
-                Assert.That(CommandLineParser.TryParse("PLACE 651587,-623351", out _), Is.True);
 
-                Assert.That(CommandLineParser.TryParse("PLACE 1,2,NORTH", out _), Is.True);
-                Assert.That(CommandLineParser.TryParse("PLACE -1,2,SOUTH", out _), Is.True);
-                Assert.That(CommandLineParser.TryParse("PLACE 330,400,EAST", out _), Is.True);
-                Assert.That(CommandLineParser.TryParse("PLACE 482,2,WEST", out var response), Is.True);
-                Assert.That(response.Command, Is.EqualTo(Commands.PLACE));
+                Assert.Multiple(() =>
+                {
+                    Assert.That(CommandLineParser.TryParse("PLACE 4245663,7421331", out var response), Is.True);
+                    Assert.That(response.Parameters[0], Is.EqualTo("4245663"));
+                    Assert.That(response.Parameters[1], Is.EqualTo("7421331"));
+                });
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(CommandLineParser.TryParse("PLACE 651587,-623351", out var response), Is.True);
+                    Assert.That(response.Parameters[0], Is.EqualTo("651587"));
+                    Assert.That(response.Parameters[1], Is.EqualTo("-623351"));
+                });
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(CommandLineParser.TryParse("PLACE 1,2,NORTH", out var response), Is.True);
+                    Assert.That(response.Parameters[0], Is.EqualTo("1"));
+                    Assert.That(response.Parameters[1], Is.EqualTo("2"));
+                    Assert.That(response.Parameters[2], Is.EqualTo("NORTH"));
+                });
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(CommandLineParser.TryParse("PLACE -1,2,SOUTH", out var response), Is.True);
+                    Assert.That(response.Command, Is.EqualTo(Commands.PLACE));
+                    Assert.That(response.Parameters[0], Is.EqualTo("-1"));
+                    Assert.That(response.Parameters[1], Is.EqualTo("2"));
+                    Assert.That(response.Parameters[2], Is.EqualTo("SOUTH"));
+                });
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(CommandLineParser.TryParse("PLACE 330,400,EAST", out var response), Is.True);
+                    Assert.That(response.Command, Is.EqualTo(Commands.PLACE));
+                    Assert.That(response.Parameters[0], Is.EqualTo("330"));
+                    Assert.That(response.Parameters[1], Is.EqualTo("400"));
+                    Assert.That(response.Parameters[2], Is.EqualTo("EAST"));
+                });
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(CommandLineParser.TryParse("PLACE 482,2,WEST", out var response), Is.True);
+                    Assert.That(response.Command, Is.EqualTo(Commands.PLACE));
+                    Assert.That(response.Parameters[0], Is.EqualTo("482"));
+                    Assert.That(response.Parameters[1], Is.EqualTo("2"));
+                    Assert.That(response.Parameters[2], Is.EqualTo("WEST"));
+                });
 
                 Assert.That(CommandLineParser.TryParse("PLACE 482,2,WEST ", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("PLACE 482,2,WHEAT", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("PLACE WEST,1,2", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("PLACE 1.0,2,WEST", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("PLACE 1,-2.0,WEST", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("PLACE -1,2.0,WEST", out _), Is.False);
+                Assert.That(CommandLineParser.TryParse("PLACE -1,-2.0,WEST", out _), Is.False);
                 Assert.That(CommandLineParser.TryParse("PLACE 1,2 ", out _), Is.False);
             });
         }

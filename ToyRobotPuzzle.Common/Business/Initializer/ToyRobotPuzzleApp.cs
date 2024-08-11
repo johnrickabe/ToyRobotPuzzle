@@ -156,10 +156,12 @@ namespace ToyRobotPuzzle.Common.Business.Initializer
             Console.WriteLine($"Robot is at ({this.Robot.PositionX},{this.Robot.PositionY}) facing {this.Robot.FacingDirection}");
         }
 
-        public bool IsRobotPlaced() => this.Robot.IsPlaced;
+        public bool IsRobotPlaced => this.Robot.IsPlaced;
+
         public FacingDirection? RobotFacingDirection => this.Robot.FacingDirection;
         public int? RobotPositionX => this.Robot.PositionX;
         public int? RobotPositionY => this.Robot.PositionY;
+
         public int TableWidth => this.TableTop.Width;
         public int TableHeight => this.TableTop.Height;
 

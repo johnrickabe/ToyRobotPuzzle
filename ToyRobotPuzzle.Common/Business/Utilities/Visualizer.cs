@@ -6,7 +6,7 @@ namespace ToyRobotPuzzle.Common.Business.Utilities
     {
         public static void Visualize(ToyRobotPuzzleApp launcher)
         {
-            if (launcher.IsRobotPlaced())
+            if (launcher.IsRobotPlaced)
             {
                 var stringRows = Visualizer.CreateStringMatrix(launcher.TableWidth, launcher.TableHeight);
 
